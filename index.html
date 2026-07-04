@@ -199,12 +199,19 @@
   .item-price{
     font-family:'Anton', sans-serif; color:var(--brick); font-size:1rem;
     white-space:nowrap; align-self:flex-start; padding-top:2px;
+    text-align:right;
+  }
+  .price-label{
+    display:block; font-family:'Work Sans', sans-serif; font-weight:700;
+    font-size:.65rem; letter-spacing:.05em; text-transform:uppercase;
+    color:#8a7d5f; margin-bottom:2px;
   }
   .subgroup-label{
     font-family:'Anton', sans-serif; font-size:.78rem; letter-spacing:.08em;
     color:#8a7d5f; text-transform:uppercase; margin:18px 0 2px;
   }
   .note{font-size:.85rem; color:#716752; padding:10px 24px 18px; font-style:italic;}
+  .note-top{padding:16px 0 10px; border-bottom:1px dashed var(--line); margin-bottom:4px;}
 
   /* Drinks section */
   .drinks-card{
@@ -361,19 +368,18 @@
 <script>
 const menu = [
   {
-    id:"nachos", name:"Nachos", price:"4,00€",
+    id:"nachos", name:"Nachos",
     groups:[
       {label:"Básicos", items:[
-        {name:"Cheddar y Mozzarella", desc:"", price:"4,00€ / 7,00€"}
+        {name:"Cheddar y Mozzarella", desc:"", priceLabel:"Media ración / Ración", price:"4,00€ / 7,00€"}
       ]},
       {label:"Premium", items:[
-        {name:"Eric", desc:"Ternera, Bacon Crispy, Mozzarella y Salsa Mexicana", price:"6,00€ / 10,00€"},
-        {name:"Abuela", desc:"Ternera, Cheddar, Mozzarella, Guacamole, Queso Cremoso y Pico de Gallo", price:"6,00€ / 10,00€"},
-        {name:"Jessy", desc:"Carne Mechada, Bacon Crispy, Cheddar, Mozzarella y Jalapeños", price:"6,00€ / 10,00€"},
-        {name:"Fernando", desc:"Pollo, Cheddar, Mozzarella, Cebolla crujiente y Salsa al Whisky", price:"6,00€ / 10,00€"}
+        {name:"Eric", desc:"Ternera, Bacon Crispy, Mozzarella y Salsa Mexicana", priceLabel:"Media ración / Ración", price:"6,00€ / 10,00€"},
+        {name:"Abuela", desc:"Ternera, Cheddar, Mozzarella, Guacamole, Queso Cremoso y Pico de Gallo", priceLabel:"Media ración / Ración", price:"6,00€ / 10,00€"},
+        {name:"Jessy", desc:"Carne Mechada, Bacon Crispy, Cheddar, Mozzarella y Jalapeños", priceLabel:"Media ración / Ración", price:"6,00€ / 10,00€"},
+        {name:"Fernando", desc:"Pollo, Cheddar, Mozzarella, Cebolla crujiente y Salsa al Whisky", priceLabel:"Media ración / Ración", price:"6,00€ / 10,00€"}
       ]}
-    ],
-    note:"Precios en formato media ración / ración"
+    ]
   },
   {
     id:"patatas", name:"Patatas", price:"3,50€",
@@ -392,13 +398,12 @@ const menu = [
     groups:[
       {items:[
         {name:"Jalapeños rellenos", desc:"6 jalapeños rellenos de cheddar", price:"5,60€"},
-        {name:"Salchipapas", desc:"", price:"6,90€*"},
-        {name:"Fingers de pollo", desc:"", price:"6,90€*"},
+        {name:"Salchipapas", desc:"", price:"6,90€"},
+        {name:"Fingers de pollo", desc:"", price:"6,90€"},
         {name:"Alitas de pollo", desc:"", price:"6,90€"},
         {name:"Alitas de pollo supreme", desc:"A elegir sabor: Tijuana o Kentucky", price:"6,90€"}
       ]}
-    ],
-    note:"* Precio de Salchipapas y Fingers de pollo pendiente de confirmar"
+    ]
   },
   {
     id:"hamburguesas", name:"Hamburguesas", price:"7,90€",
@@ -467,7 +472,7 @@ menu.forEach((cat, i) => {
 
   const bar = document.createElement('div');
   bar.className = 'barhead';
-  bar.innerHTML = `<h2>${cat.name}</h2>` + (cat.price ? `<div class="price-tag">${cat.price}<small>desde</small></div>` : '');
+  bar.innerHTML = `<h2>${cat.name}</h2>`;
   card.appendChild(bar);
 
   const body = document.createElement('div');
@@ -488,19 +493,13 @@ menu.forEach((cat, i) => {
           <p class="item-name">${it.name}</p>
           ${it.desc ? `<p class="item-desc">${it.desc}</p>` : ''}
         </div>
-        ${it.price ? `<div class="item-price">${it.price}</div>` : ''}
+        ${it.price ? `<div class="item-price">${it.priceLabel ? `<span class="price-label">${it.priceLabel}</span>` : ''}${it.price}</div>` : ''}
       `;
       body.appendChild(row);
     });
   });
 
   card.appendChild(body);
-  if(cat.note){
-    const note = document.createElement('div');
-    note.className = 'note';
-    note.textContent = cat.note;
-    card.appendChild(note);
-  }
   panel.appendChild(card);
   panelsEl.appendChild(panel);
 });
